@@ -8,7 +8,7 @@ import IO;
 
 import String;
 
-import lang::AST;
+import lang::smtlib25::AST;
 
 bool implodeAllExampleFiles() {
 	loc exampleDir = |project://smtlib2/examples|;

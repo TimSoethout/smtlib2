@@ -50,20 +50,24 @@ str \run(PID z3, str command, bool debug = false) {
 }
 
 
-private str read(PID z3) {
-	str output = "";
-	// while the message is empty, keep reading till success or another output 
-	while(output == "") {
-		str out = readFrom(z3);
-		
-		while(out != "") {
-			output += out;
-			sleep(10);
-			out = readFrom(z3);
-		}
-	}
-	
-	return trim(output) == "success" ? "" : replaceLast(output, "\n", "");
+//str read(PID z3) {
+//	str output = "";
+//	// while the message is empty, keep reading till success or another output 
+//	while(output == "") {
+//		str out = readFrom(z3);
+//		
+//		while(out != "") {
+//			output += out;
+//			sleep(10);
+//			out = readFrom(z3);
+//		}
+//	}
+//	
+//	return trim(output) == "success" ? "" : replaceLast(output, "\n", "");
+//}
+
+public str read(PID z3) {
+  return replaceAll(replaceAll(readFrom(z3), "success", ""), "\n", "");
 }
 
 private void printIfDebug(str line, bool debug) {

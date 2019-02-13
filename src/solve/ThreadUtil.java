@@ -1,13 +1,11 @@
 package solve;
 
 import org.rascalmpl.interpreter.utils.RuntimeExceptionFactory;
-import org.rascalmpl.value.IInteger;
-import org.rascalmpl.value.IValueFactory;
 
 public class ThreadUtil {
-	public ThreadUtil(IValueFactory vf) {}
+	public ThreadUtil(io.usethesource.vallang.IValueFactory vf) {}
 	
-	public void sleep(IInteger ms) {
+	public void sleep(io.usethesource.vallang.IInteger ms) {
 		try {
 			Thread.sleep(ms.longValue());
 		} catch (InterruptedException e) {

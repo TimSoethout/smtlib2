@@ -1,6 +1,7 @@
 module tests::ParserTester
 
 import Parser;
+import lang::smtlib25::Syntax;
 import Imploder;
 
 import lang::Syntax;
@@ -26,4 +27,14 @@ bool parseAllExampleFilesAndCheckForAmbiguity() {
 	}
 	
 	return true;
+}
+
+bool parseDash() {
+
+    parsed = parse(#Id, "is-Deposit");
+    ;Tree res = parseSmt2(|file:///Users/tim/workspace/tim-phd/papers/notes/account.psac.state.smt2|);
+  	
+    println(parsed);
+    
+    return true;
 }

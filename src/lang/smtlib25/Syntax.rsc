@@ -21,8 +21,8 @@ syntax Command
 	| getModel:					"(" "get-model" ")"
 	| eval:						"(" "eval" Formula term ")"
 	| echo:						"(" "echo" String text ")"
-	| push:						"(" "push" Int nr ")"
-	| pop:						"(" "pop" Int nr ")"
+	| push:						"(" "push" Int? nr ")"
+	| pop:						"(" "pop" Int? nr ")"
 	| exit:						"(" "exit" ")"
 	; 
 
@@ -213,7 +213,7 @@ lexical Hex = "#" "x" [0-9 a-f]+;
 lexical Bin = "#" "b" [0-1]+;
 lexical String = "\"" ![\"]* "\"";
 
-lexical Id = ([a-z A-Z 0-9 _.] !<< [a-z A-Z _][a-z A-Z 0-9 _.]* !>> [a-z A-Z 0-9 _.]) \ Keywords;
+lexical Id = ([a-z A-Z 0-9 _.] !<< [a-z A-Z _][a-z A-Z 0-9 _.\-]* !>> [a-z A-Z 0-9 _.]) \ Keywords;
 lexical SortId = ([a-z A-Z 0-9 _] !<< [A-Z _][a-z A-Z 0-9 _]* !>> [a-z A-Z 0-9 _]) \ Keywords;
 
 lexical Boolean = "true" | "false";
