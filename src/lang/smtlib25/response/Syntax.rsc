@@ -10,7 +10,7 @@
 }
 @contributor{Jouke Stoel - stoel@cwi.nl (CWI)}
 
-module lang::response::Syntax
+module lang::smtlib25::response::Syntax
 
 extend lang::std::Layout;
 

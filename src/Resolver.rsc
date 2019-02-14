@@ -64,11 +64,18 @@ Scope resolveVarDeclarations(Script script) {
 		case f:(Formula)`(let ( <VarBinding+ bindings> ) <Formula _>)`: {
 			scopes = add(f@\loc,{<"<binding.name>", binding@\loc> | /VarBinding binding := bindings}, scopes);
 		}
+		case f:(DataTypeDefinition)`(<SortId name> <Constructor+ cons>)`: {
+		  scopes = add(f@\loc,{<"<constructor.name>", constructor@\loc> | /Constructor constructor := cons}, scopes);
+		}
 	};
 	
 		// First add the global definitions
 	Def global = 	{<"<name>",const@\loc> | /const:(Command)`(declare-const <Id name> <Sort _>)` := script} +
 					{<"<name>",const@\loc> | /const:(Command)`(define-fun <Id name> () <Sort _> <Formula _>)` := script};
+					// +
+					//{<"<definition.name>", definition@\loc> |
+					//    /const:(Command)`(declare-datatypes (<SortId* _>) (<DataTypeDefinition* definitions>))` := script,
+					//    /DataTypeDefinition definition := definitions, bprintln(definition.name)};
 
 	scopes = add(script@\loc, global, scopes);
 

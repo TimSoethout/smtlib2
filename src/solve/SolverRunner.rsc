@@ -7,6 +7,9 @@ import String;
 import Boolean;
 import IO;
 import Map;
+import lang::smtlib25::Syntax;
+import lang::smtlib25::response::Parser;
+import lang::smtlib25::response::Syntax;
 
 import \solve::ThreadUtil;
 
@@ -89,6 +92,21 @@ int getSolvingTime(SolverPID pid) {
   
   return time;
 }
+
+Expr getValue(SolverPID pid, str vars) = val when {val} := getModel(pid, [vars])<1>;
+
+map[str,Expr] getModel(SolverPID pid, list[str] vars) {
+  smtResult = runSolverAndExpectResult(pid, "(get-value (<intercalate(" ", vars)>))");
+  println(smtResult);
+  
+  Response foundValues = parseResponse(trim(smtResult)); 
+  
+  map[str,Expr] rawSmtVals = ("<foundValue.var>" : foundValue.val | /FoundValue foundValue := foundValues);
+  //map[str,SmtValue] rawSmtVals = (() | it + ("<varAndVal.name>":varAndVal.val) | VarAndValue varAndVal <- foundValues.values);
+  //SMTModel m = (var : val | str varName <- rawSmtVals, SMTVar var:<varName, Sort _> <- vars, Term val := getValue(rawSmtVals[varName], var));
+  
+  return rawSmtVals;
+}    
 
 str runSolverAndExpectResult(SolverPID pid, str commands) { 
   str result = run(pid,commands, debug=false);

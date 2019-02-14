@@ -10,9 +10,9 @@
 }
 @contributor{Jouke Stoel - stoel@cwi.nl (CWI)}
 
-module lang::response::Parser
+module lang::smtlib25::response::Parser
 
-import lang::response::Syntax;
+import lang::smtlib25::response::Syntax;
 
 import ParseTree;
 import IO;
