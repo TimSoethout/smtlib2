@@ -1,6 +1,6 @@
-module \solve::SolverRunner
+module solver::SolverRunner
 
-import \solve::Z3;
+import solver::Z3;
 
 import List;
 import String;
@@ -10,8 +10,6 @@ import Map;
 import lang::smtlib25::Syntax;
 import lang::smtlib25::response::Parser;
 import lang::smtlib25::response::Syntax;
-
-import \solve::ThreadUtil;
 
 alias SolverPID = int;
 
@@ -115,7 +113,7 @@ str runSolverAndExpectResult(SolverPID pid, str commands) {
     try {
       // println("reading <result>");
       str oldResult = result;
-      sleep(5); 
+      //sleep(5); 
       result += read(pid);
       
       if(trim(result) != "" && result == oldResult) {

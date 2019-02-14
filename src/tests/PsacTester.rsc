@@ -1,7 +1,7 @@
 module tests::PsacTester
 
-//import \solve::Z3;
-import \solve::SolverRunner;
+//import solver::Z3;
+import solver::SolverRunner;
 import IO;
 
 import Parser;
@@ -13,6 +13,10 @@ import Parser;
 import Checker;
 //import Imploder;
 import lang::smtlib25::Syntax;
+import lang::smtlib25::response::Syntax;
+
+str getNameFromResponse(Expr e) = "<e.constructor>" when e is cons;
+str getNameFromResponse(Expr e) = "<e.varName>" when e is var;
 
 bool state() {
   int z3 = startSolver();
@@ -37,20 +41,30 @@ bool state() {
     println("check-sat: <sat>");
     println(getSolvingTime(z3));
     
+    list[tuple[str,str]] incompatibleEvents = [];
     
     while(sat) {
+      println("Next model:");
       model = getModel(z3, ["state_before", "e1", "state_post_e1", "e2", "accepts_e2"]);
-      println(model);
+      //println(model);
       
       // negate found model
       e1 = getValue(z3, "e1");
-      e2 = getValue(z3, "e1");
+      e2 = getValue(z3, "e2");
+      
+      incompatibleEvents += <getNameFromResponse(e1), getNameFromResponse(e2)>;
+      
+      asserts = "(assert (not (and (is-<getNameFromResponse(e1)> e1) (is-<getNameFromResponse(e2)> e2))))";
+      ;assertE2 = "(assert ))";
+      println("Asserting: <asserts>");
+      
+      runSolver(z3, asserts);
       
       // continue
       sat = checkSat(z3);
     }
      
-    println("<result>");
+    println("<intercalate("\n", incompatibleEvents)>");
   } catch ex: throw (ex);
   finally {
     stopSolver(z3);
