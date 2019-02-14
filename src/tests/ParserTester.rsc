@@ -4,10 +4,11 @@ import Parser;
 import lang::smtlib25::Syntax;
 import Imploder;
 
-import lang::Syntax;
+import lang::smtlib25::Syntax;
 
 import IO;
 import ParseTree;
+import util::Maybe;
 
 bool parseAllExampleFilesAndCheckForAmbiguity() {
 	loc exampleDir = |project://smtlib2/examples|;
